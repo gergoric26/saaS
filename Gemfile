@@ -16,6 +16,7 @@ gem 'devise', '~>3.4.1'
 gem 'bootstrap-sass'
 gem 'pundit'
 gem 'faker'
+gem 'stripe'
 
 group :production do
   gem 'pg'
