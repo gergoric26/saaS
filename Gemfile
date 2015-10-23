@@ -17,6 +17,7 @@ gem 'bootstrap-sass'
 gem 'pundit'
 gem 'faker'
 gem 'stripe'
+gem 'figaro', '1.0'
 
 group :production do
   gem 'pg'
