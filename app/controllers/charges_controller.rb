@@ -1,10 +1,12 @@
 class ChargesController < ApplicationController
 
+  before_action :authenticate_user!
+
   def new
     @stripe_btn_data = {
     key: "#{ Rails.configuration.stripe[:publishable_key] }",
     description: "Premium Membership - #{current_user.email}",
-    amount: 1500
+    amount: 1500  
     }
   end
 
@@ -13,20 +15,23 @@ class ChargesController < ApplicationController
     # with the charge
     customer = Stripe::Customer.create(
       email: current_user.email,
-      card: params[:stripeToken]
+      card: params[:stripeToken],
+      plan: 2609
     )
+
+    current_user.update(role: 1)
+    current_user.save
    
     # Where the real magic happens
     charge = Stripe::Charge.create(
       customer: customer.id, # Note -- this is NOT the user_id in your app
       amount: 1500,
-      interval: 'month',
       description: "Premium Membership - #{current_user.email}",
       currency: 'usd'
     )
    
     flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
-    redirect_to user_path(current_user) # or wherever
+    redirect_to root_path(current_user) # or wherever
    
     # Stripe will send back CardErrors, with friendly messages
     # when something goes wrong.
