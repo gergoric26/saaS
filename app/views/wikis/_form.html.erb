@@ -11,7 +11,11 @@
 
 
 
-    <%= f.check_box :private %> Private
+    <% if current_user.admin? || current_user.premium? %>
+      <%= f.check_box :private %> Private
+    <% end %>
+
+</br>
 
   <div class="form-group">
     <%= f.submit "Save", class: 'btn btn-success' %>
