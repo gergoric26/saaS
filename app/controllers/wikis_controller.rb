@@ -4,7 +4,8 @@ class WikisController < ApplicationController
   after_action :verify_authorized, except: [:index, :show, :create, :new, :destroy]
 
   def index
-    @wikis = Wiki.visible_to(current_user)
+  #  @wikis = Wiki.visible_to(current_user)
+    @wikis = policy_scope(Wiki)
     #authorize Wiki
   end
 

@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   has_many :wikis
+  has_many :collaborators, through: :wikis
 
   enum role: [:standard, :premium, :admin]
   after_initialize :set_default_role, :if => :new_record?
